@@ -13,6 +13,8 @@ function eventListeners(){
     //to the list and we don't have previously the code of the task... it add to the DOM on the fly..
     TaskList.addEventListener('click',deleteTask)
 
+    //Listener to wait until the document is loaded... because when the document is 100% loaded we must show the task on the LS
+    document.addEventListener('DOMContentLoaded',showLocalStorage)
     
 }
 
@@ -48,6 +50,29 @@ function deleteTask (e){
 
     }
     
+}
+
+//Show data from the LS on the DOM
+function showLocalStorage(){
+    let tasksFromLS
+
+    tasksFromLS=getTasksFromLocalStorage()
+
+    tasksFromLS.forEach(task => {
+        //Add a link to delete the task
+    const deleteLink=document.createElement('a')
+    deleteLink.classList='delete-task'//Add a class to style the link
+    deleteLink.innerText='X'
+
+    //Creating a new li element to list the task in the HTML
+    const li=document.createElement('li')
+    li.innerText=task//Add the text of the task to the li
+    li.appendChild(deleteLink)//Add the child for every task... i.e. when you add a task you will be able to delete them one by one
+    TaskList.appendChild(li)//Add the new child element
+        
+    });
+
+
 }
 
 function addTaskToLocalStorage (task){
