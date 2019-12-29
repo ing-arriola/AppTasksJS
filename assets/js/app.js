@@ -44,10 +44,9 @@ function addTask(e){
 function deleteTask (e){
     e.preventDefault
     //The link to delete the task has the name of "delete-task"; then we only need to validate the name of the className
-    console.log('hola')
     if(e.target.className === 'delete-task'){
         e.target.parentElement.remove()//It's necesary to removethe li that contains the delete-task link
-
+        deleteTaskFromLocalStorage(e.target.parentElement.innerText)//This will call a function to delete a task on LS
     }
     
 }
@@ -93,4 +92,20 @@ function getTasksFromLocalStorage(){
         tasks=JSON.parse(localStorage.getItem('tasks'))//LS: Yes i have some task... DEV:OK!!, let's parse into a JSON :)
     }
     return tasks
+}
+
+//Function declared as ES6 
+let deleteTaskFromLocalStorage = (taskTobeDeleted)=>{
+    let tasks
+    //Ohh!! the task is passed with an "X" at the end... let's remove that "X"
+    taskTobeDeleted=taskTobeDeleted.slice(0,-1)//Using slice method to delete the last character
+    tasks=getTasksFromLocalStorage()//Now we need to get all the task and search the task to be deleted
+
+    tasks.forEach((task,index) => {//The for each in arrow function form.. it has two parameters... the element and if put index... We get the index of the actual element on such variables!! :)
+        if(taskTobeDeleted === task){//Looking for the task to be deleted
+            tasks.splice(index,1)   //When the task is founded .. we use the the splice function that takes two arguments, first the index of the element where we start to delete and second the number of elements to be deleted
+        }
+    })
+
+    localStorage.setItem('tasks',JSON.stringify(tasks))//Ok!! Now!! we can set again the LS because we have deleted the task successfully
 }
