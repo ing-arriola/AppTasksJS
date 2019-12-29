@@ -41,7 +41,8 @@ function deleteTask (e){
     //The link to delete the task has the name of "delete-task"; then we only need to validate the name of the className
     console.log('hola')
     if(e.target.className === 'delete-task'){
-        console.log('click on delete task')
+        e.target.parentElement.remove()//It's necesary to removethe li that contains the delete-task link
+        
     }
     
 }
