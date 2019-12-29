@@ -12,6 +12,8 @@ function eventListeners(){
     //Delete Tasks: We need attend all the clicks on the Tasks-List div, this is because the tasks will add
     //to the list and we don't have previously the code of the task... it add to the DOM on the fly..
     TaskList.addEventListener('click',deleteTask)
+
+    
 }
 
 //Functions
@@ -32,8 +34,9 @@ function addTask(e){
     li.innerText=task//Add the text of the task to the li
     li.appendChild(deleteLink)//Add the child for every task... i.e. when you add a task you will be able to delete them one by one
     TaskList.appendChild(li)//Add the new child element
-
-    console.log(task)
+    
+    //Add task to the LocalStorage
+    addTaskToLocalStorage(task)
 }
 
 function deleteTask (e){
@@ -42,7 +45,27 @@ function deleteTask (e){
     console.log('hola')
     if(e.target.className === 'delete-task'){
         e.target.parentElement.remove()//It's necesary to removethe li that contains the delete-task link
-        
+
     }
     
+}
+
+function addTaskToLocalStorage (task){
+    let tasks//This will be an array to hold the task from the LS
+
+    tasks=getTasksFromLocalStorage()//Here we get all the task from the LS, if the LS has no one task the function will return a void array
+    
+    tasks.push(task)//Add the new task to the previous array of task
+    //add to localStorage
+    localStorage.setItem('tasks',JSON.stringify(tasks))//Save into the LS
+}
+
+function getTasksFromLocalStorage(){
+    let tasks
+    if(localStorage.getItem('tasks') === null ){//Query to the LS .... Do you have any task?
+        tasks=[]//LS: No i don't  have task yet.. :(
+    }else{
+        tasks=JSON.parse(localStorage.getItem('tasks'))//LS: Yes i have some task... DEV:OK!!, let's parse into a JSON :)
+    }
+    return tasks
 }
