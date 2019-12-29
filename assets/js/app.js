@@ -8,6 +8,10 @@ eventListeners();
 function eventListeners(){
     //This executes when the form is submitted
     document.querySelector('#formulario').addEventListener('submit',addTask)
+
+    //Delete Tasks: We need attend all the clicks on the Tasks-List div, this is because the tasks will add
+    //to the list and we don't have previously the code of the task... it add to the DOM on the fly..
+    TaskList.addEventListener('click',deleteTask)
 }
 
 //Functions
@@ -30,4 +34,14 @@ function addTask(e){
     TaskList.appendChild(li)//Add the new child element
 
     console.log(task)
+}
+
+function deleteTask (e){
+    e.preventDefault
+    //The link to delete the task has the name of "delete-task"; then we only need to validate the name of the className
+    console.log('hola')
+    if(e.target.className === 'delete-task'){
+        console.log('click on delete task')
+    }
+    
 }
